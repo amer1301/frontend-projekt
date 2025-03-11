@@ -1,4 +1,5 @@
 @use "variables";
+@use "keyframes";
 
 #nav-menu {
     background-color: variables.$header-color;
@@ -15,10 +16,9 @@
         text-decoration: none;
         font-size: variables.$font-size-nav;
     }
-
     li a:hover {
-        text-decoration: underline;
-      }
+        animation: colorChange 1s ease-in-out infinite;
+    }
   }
 
   .menu-nav {

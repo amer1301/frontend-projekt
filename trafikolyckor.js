@@ -1,5 +1,46 @@
 let map;  // Skapa en global variabel för kartan
 
+import priority1Icon from './images/priority1.png';
+import priority2Icon from './images/priority2.png';
+import priority3Icon from './images/priority3.png';
+import priority4Icon from './images/priority4.png';
+import priority5Icon from './images/priority5.png';
+import markerIcon from './images/marker.png';
+
+// Skapa olika ikoner baserat på prioritet
+const priorityIcons = {
+    1: L.icon({
+        iconUrl: priority1Icon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    }),
+    2: L.icon({
+        iconUrl: priority2Icon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    }),
+    3: L.icon({
+        iconUrl: priority3Icon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    }),
+    4: L.icon({
+        iconUrl: priority4Icon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    }),
+    5: L.icon({
+        iconUrl: priority5Icon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    })
+};
+
 // Funktion för att visa en karta med en förvald plats
 function initializeMap() {
     // Förvald plats (Stockholm) när sidan laddas
@@ -13,11 +54,6 @@ function initializeMap() {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-
-    // Lägg till en markör på förvald plats
-    L.marker([defaultLat, defaultLon]).addTo(map)
-        .bindPopup('Stockholm')
-        .openPopup();
 
     // Hämta trafikinfo för förvald plats
     getTrafficInfo(defaultLat, defaultLon, 'Stockholm');
@@ -56,8 +92,15 @@ function updateMap(lat, lon) {
         map.setView([lat, lon], 13);
     }
 
-    // Lägg till markör på den nya platsen
-    L.marker([lat, lon]).addTo(map)
+    // Lägg till en standard markör med 'marker.png' på den nya platsen
+    const userMarker = L.icon({
+        iconUrl: markerIcon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
+
+    L.marker([lat, lon], { icon: userMarker }).addTo(map)
         .bindPopup('Platsen: ' + lat + ', ' + lon)
         .openPopup();
 }
@@ -112,6 +155,7 @@ function displayTrafficInfo(data) {
 }
 
 // Lägg till markörer för trafikstörningar på kartan
+// Lägg till markörer för trafikstörningar på kartan
 function addTrafficMarkers(data, userLat, userLon) {
     if (data.messages && data.messages.length > 0) {
         data.messages.forEach(message => {
@@ -120,7 +164,9 @@ function addTrafficMarkers(data, userLat, userLon) {
 
             const distance = getDistance(userLat, userLon, lat, lon);
             if (distance < 50) { // 50 km avstånd, kan justeras beroende på behov
-                L.marker([lat, lon]).addTo(map)
+                // Välj rätt prioriteringsikon för markören
+                const icon = priorityIcons[message.priority] || priorityIcons[3];  // Standard ikon om prioritet inte finns
+                L.marker([lat, lon], { icon: icon }).addTo(map)
                     .bindPopup(`
                         <strong>${message.title}</strong><br>
                         ${message.description || "Ingen ytterligare information."}<br>
@@ -131,6 +177,7 @@ function addTrafficMarkers(data, userLat, userLon) {
         });
     }
 }
+
 
 // Hjälpfunktion för att beräkna avstånd mellan två geografiska punkter (i kilometer)
 function getDistance(lat1, lon1, lat2, lon2) {

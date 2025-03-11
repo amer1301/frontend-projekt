@@ -31,14 +31,22 @@
     }
     img {
         width: 30%;
+        padding-left: 2em;
+        padding-right: 1em;
         height: auto;
         text-align: center;
         white-space: nowrap;
         box-sizing: border-box;
+        animation: scale 1s infinite alternate linear;
     }
 }
 
 h2 {
     @extend %flex-center;
     font-size: variables.$font-size-title;
+    animation: zoomIn 1.2s ease-out;
+}
+
+#map {
+    animation: shadowAnimation 3s infinite;
 }

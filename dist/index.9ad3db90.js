@@ -1,4 +1,82 @@
 let map; // Skapa en global variabel för kartan
+// Skapa olika ikoner baserat på prioritet
+const priorityIcons = {
+    1: L.icon({
+        iconUrl: './images/priority1.png',
+        iconSize: [
+            32,
+            32
+        ],
+        iconAnchor: [
+            16,
+            32
+        ],
+        popupAnchor: [
+            0,
+            -32
+        ]
+    }),
+    2: L.icon({
+        iconUrl: './images/priority2.png',
+        iconSize: [
+            32,
+            32
+        ],
+        iconAnchor: [
+            16,
+            32
+        ],
+        popupAnchor: [
+            0,
+            -32
+        ]
+    }),
+    3: L.icon({
+        iconUrl: './images/priority3.png',
+        iconSize: [
+            32,
+            32
+        ],
+        iconAnchor: [
+            16,
+            32
+        ],
+        popupAnchor: [
+            0,
+            -32
+        ]
+    }),
+    4: L.icon({
+        iconUrl: './images/priority4.png',
+        iconSize: [
+            32,
+            32
+        ],
+        iconAnchor: [
+            16,
+            32
+        ],
+        popupAnchor: [
+            0,
+            -32
+        ]
+    }),
+    5: L.icon({
+        iconUrl: './images/priority5.png',
+        iconSize: [
+            32,
+            32
+        ],
+        iconAnchor: [
+            16,
+            32
+        ],
+        popupAnchor: [
+            0,
+            -32
+        ]
+    })
+};
 // Funktion för att visa en karta med en förvald plats
 function initializeMap() {
     // Förvald plats (Stockholm) när sidan laddas
@@ -100,6 +178,7 @@ function addTrafficMarkers(data, userLat, userLon) {
     if (data.messages && data.messages.length > 0) data.messages.forEach((message)=>{
         const lat = message.latitude;
         const lon = message.longitude;
+        const icon = priorityIcons[message.priority] || priorityIcons[3];
         const distance = getDistance(userLat, userLon, lat, lon);
         if (distance < 50) L.marker([
             lat,
