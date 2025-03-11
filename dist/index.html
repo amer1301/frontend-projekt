@@ -3,18 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/index.9ad3db90.js" defer=""></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="/index.81721fd0.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="/index.9ad3db90.js" defer=""></script>
+<script src="/index.ee9ff33a.js" defer=""></script>
 </head>
 <body>
-    <header>
-        <h1>Trafikinfo och Karta</h1>
-    </header>
+    <header class="header">
+        <section class="logotyp">
+            <img src="/beware.3a6b62bb.png" alt="logotyp">
+            <h1>BeforeUGo</h1>
+          </section>
+        <nav class="header-nav">
+            <button class="menu-toggle" id="menu-toggle">
+              <span class="bars">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+              </span>
+              <span class="close" style="display: none">
+                <span class="close-icon">X</span>
+              </span>
+            </button>
+          </nav>
+<nav class="menu-nav">
+    <ul id="nav-menu">
+    <li><a href="/index.html"><span class="underline">Sök efter trafikstörningar</span></a></li>
+    <li><a href="/krisinformation.html">Nyheter Krisinformation</a></li>
+</ul>
+    </nav>
+</header>
 
     <main>
+        <h2>Trafikinformation</h2>
         <section id="search-container">
-            <input type="text" id="location-input" placeholder="Skriv in ett område eller adress">
+            <input type="text" id="location-input" placeholder="Ange vilket område du önskar söka information om:">
             <button id="search-btn">Sök</button>
         </section>
 
@@ -23,7 +48,7 @@
         </section>
 
         <section id="traffic-info-container">
-            <h2>Trafikinfo</h2>
+            <h2>Aktuella störningar</h2>
             <div id="info"></div>
         </section>
     </main>

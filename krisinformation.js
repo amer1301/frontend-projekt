@@ -38,3 +38,5 @@ async function fetchTopStories() {
 
 // Kör funktionen när sidan har laddats
 window.onload = fetchTopStories;
+
+

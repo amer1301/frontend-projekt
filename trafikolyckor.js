@@ -1,5 +1,28 @@
 let map;  // Skapa en global variabel för kartan
 
+// Funktion för att visa en karta med en förvald plats
+function initializeMap() {
+    // Förvald plats (Stockholm) när sidan laddas
+    const defaultLat = 59.3293;  // Latitude för Stockholm
+    const defaultLon = 18.0686;  // Longitude för Stockholm
+
+    // Skapa kartan och sätt en initial vy
+    map = L.map('map').setView([defaultLat, defaultLon], 13);  // Initiala koordinater och zoom
+
+    // Lägg till OpenStreetMap lager
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Lägg till en markör på förvald plats
+    L.marker([defaultLat, defaultLon]).addTo(map)
+        .bindPopup('Stockholm')
+        .openPopup();
+
+    // Hämta trafikinfo för förvald plats
+    getTrafficInfo(defaultLat, defaultLon, 'Stockholm');
+}
+
 // Hämtar koordinater från Nominatim API (OpenStreetMap)
 async function getCoordinates(location) {
     try {
@@ -22,11 +45,9 @@ async function getCoordinates(location) {
 
 // Uppdaterar kartan med en ny plats
 function updateMap(lat, lon) {
-    // Om kartan inte har initialiserats än, skapa den
     if (!map) {
-        map = L.map('map').setView([lat, lon], 13);  // Skapar en karta med den valda platsen
-        
-        // Lägg till OpenStreetMap lager
+        // Om kartan inte har initialiserats än, skapa den
+        map = L.map('map').setView([lat, lon], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
@@ -35,9 +56,9 @@ function updateMap(lat, lon) {
         map.setView([lat, lon], 13);
     }
 
-    // Lägg till markör på den valda platsen
+    // Lägg till markör på den nya platsen
     L.marker([lat, lon]).addTo(map)
-        .bindPopup('Du sökte efter denna plats')
+        .bindPopup('Platsen: ' + lat + ', ' + lon)
         .openPopup();
 }
 
@@ -94,14 +115,11 @@ function displayTrafficInfo(data) {
 function addTrafficMarkers(data, userLat, userLon) {
     if (data.messages && data.messages.length > 0) {
         data.messages.forEach(message => {
-            // Kolla om vi har latitud och longitud för varje meddelande
             const lat = message.latitude;
             const lon = message.longitude;
-            
-            // Filtrera bort trafikmeddelanden som är långt borta från användarens sökta plats
+
             const distance = getDistance(userLat, userLon, lat, lon);
             if (distance < 50) { // 50 km avstånd, kan justeras beroende på behov
-                // Lägg till en markör på kartan där störningen inträffar
                 L.marker([lat, lon]).addTo(map)
                     .bindPopup(`
                         <strong>${message.title}</strong><br>
@@ -137,3 +155,6 @@ function getPriorityLabel(priority) {
         default: return "Okänd prioritet";
     }
 }
+
+// Initialisera kartan vid sidladdning
+initializeMap();

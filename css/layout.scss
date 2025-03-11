@@ -1,0 +1,44 @@
+@use "variables";
+@use "mixins";
+@use "keyframes";
+
+%flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    width: 100%;
+    background-color: variables.$header-color;
+    padding-right: 1em;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: auto;
+}
+
+.logotyp {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    h1 {
+    font-size: variables.$font-size-logotyp;
+    white-space: nowrap;
+    margin-top: 3em;
+    }
+    img {
+        width: 30%;
+        height: auto;
+        text-align: center;
+        white-space: nowrap;
+        box-sizing: border-box;
+    }
+}
+
+h2 {
+    @extend %flex-center;
+    font-size: variables.$font-size-title;
+}

@@ -1,0 +1,55 @@
+@use "variables";
+
+#nav-menu {
+    background-color: variables.$header-color;
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    gap: 2em;
+    white-space: nowrap;
+    box-sizing: border-box;
+    margin-top: 12em;
+
+    a {
+        color: variables.$text-color;
+        text-decoration: none;
+        font-size: variables.$font-size-nav;
+    }
+
+    li a:hover {
+        text-decoration: underline;
+      }
+  }
+
+  .menu-nav {
+    position: relative;
+    margin-left: auto;
+}
+
+.menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    margin-top: 1.7em;
+    margin-right: 1em;
+
+    .bar {
+        display: block;
+        width: 1.5em;
+        height: 0.2em;
+        background-color: #493628;
+        margin: 0;
+      }
+      .bars {
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        height: 1.2em;
+        margin-right: 0;
+        padding: 0.1em;
+      }
+  }
