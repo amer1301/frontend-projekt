@@ -37,10 +37,24 @@
 </header>
 
     <main>
+        <section class="content">
         <h2>Trafikinformation</h2>
         <section id="search-container">
             <input type="text" id="location-input" placeholder="Ange vilket område du önskar söka information om:">
             <button id="search-btn">Sök</button>
+        </section>
+
+        <section class="explanation">
+            <img src="images/priority1.png" alt="prioritet 1">
+            <span>Prioritet 1 = Mycket allvarlig händelse</span>
+            <img src="images/priority2.png" alt="prioritet 2">
+            <span>Prioritet 2 = Stor händelse</span>
+            <img src="images/priority3.png" alt="prioritet 3">
+            <span>Prioritet 3 = Störning</span>
+            <img src="images/priority4.png" alt="prioritet 4">
+            <span>Prioritet 4 = Information</span>
+            <img src="images/priority5.png" alt="prioritet 5">
+            <span>Prioritet 5 = Mindre störning</span>
         </section>
 
         <section id="map-container">
@@ -48,9 +62,14 @@
         </section>
 
         <section id="traffic-info-container">
-            <h2>Aktuella störningar</h2>
+            <div class="headline">
+            <h2>Aktuella störningar</h2><img src="images/bil.png" alt="bil"></div>
             <div id="info"></div>
         </section>
+    </section>
+        <footer>
+            <p>Ha en trevlig & säker resa!</p>
+            </footer>
     </main>
 </body>
 </html>

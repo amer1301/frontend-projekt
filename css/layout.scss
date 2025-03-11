@@ -49,4 +49,69 @@ h2 {
 
 #map {
     animation: shadowAnimation 3s infinite;
+    border-radius: 5px;
+}
+
+#search-btn {
+    @include mixins.button;
+    font-weight: bold;
+}
+
+#search-container {
+    @extend %flex-center;
+    gap: 2em;
+    margin-bottom: 3em;
+}
+
+#location-input {
+    height: 2.5em;
+    width: 23em;
+}
+
+.explanation {
+    margin-bottom: 3em;
+    white-space: nowrap;
+    img {
+        margin-right: 0.5em;
+    }
+    span {
+    font-size: variables.$font-size-button;
+    color: variables.$button-text-color;
+    margin-right: 1em;
+}
+}
+
+.headline {
+    @extend %flex-center;
+    img {
+        width: 10%;
+        height: auto;
+        margin-left: 3em;
+        animation: carVibrate 0.5s ease-in-out infinite;
+    }
+}
+
+#info {
+    h3 {
+        font-size: variables.$font-size-h3;
+    }
+
+    p {
+        font-size: 1.3em;
+        line-height: 2em;
+    }
+}
+
+footer {
+    display: flex;
+    width: 100%;
+    background-color: variables.$header-color;
+    margin: 0;
+    height: 10em;
+
+    p {
+        font-size: variables.$font-size-nav;
+        margin: 2em auto;
+        animation: footerAnimation 5s linear infinite alternate;
+    }
 }
