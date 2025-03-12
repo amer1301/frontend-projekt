@@ -20,3 +20,23 @@
         outline: none;
     }
 }
+
+@mixin media-query($size) {
+    @if $size =='mobile' {
+        @media (max-width: 450px) {
+            @content;
+        }
+    }
+
+    @else if $size =='extra' {
+        @media (max-width: 907px) {
+            @content;
+        }
+    }
+
+    @else if $size =='tablet' {
+        @media (min-width: 907px) and (max-width: 1307px) {
+            @content;
+        }
+    }
+}

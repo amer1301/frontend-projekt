@@ -30,8 +30,8 @@
           </nav>
 <nav class="menu-nav">
     <ul id="nav-menu">
-    <li><a href="/index.html">Sök efter trafikstörningar</a></li>
-    <li><a href="/krisinformation.html">Nyheter krisinformation</a></li>
+    <li><a href="/index.html">Trafikstörningar</a></li>
+    <li><a href="/krisinformation.html">Krisinformation</a></li>
     <li><a href="/vader.html">Väderprognos</a></li>
 </ul>
     </nav>
@@ -39,27 +39,37 @@
 
     <main>
         <section class="content">
-        <h2>Trafikinformation</h2>
+        <h2>Sök efter trafikinformation</h2>
         <section id="search-container">
             <input type="text" id="location-input" placeholder="Ange vilket område du önskar söka information om:">
             <button id="search-btn">Sök</button>
         </section>
 
         <section class="explanation">
+            <div class="prio">
             <img src="/priority1.f39084ed.png" alt="prioritet 1">
             <span>Prioritet 1 = Mycket allvarlig händelse</span>
+        </div>
+        <div class="prio">
             <img src="/priority2.c729e418.png" alt="prioritet 2">
             <span>Prioritet 2 = Stor händelse</span>
+            </div>
+            <div class="prio">
             <img src="/priority3.65bdc9bc.png" alt="prioritet 3">
             <span>Prioritet 3 = Störning</span>
+            </div>
+            <div class="prio">
             <img src="/priority4.d5a7555c.png" alt="prioritet 4">
             <span>Prioritet 4 = Information</span>
+            </div>
+            <div class="prio">
             <img src="/priority5.3caa98f0.png" alt="prioritet 5">
             <span>Prioritet 5 = Mindre störning</span>
+            </div>
         </section>
 
         <section id="map-container">
-            <div id="map" style="width: 100%; height: 700px"></div>
+            <div id="map" style="width: 100%"></div>
         </section>
 
         <section id="traffic-info-container">

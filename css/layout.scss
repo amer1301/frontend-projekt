@@ -30,13 +30,10 @@
     margin-top: 3em;
     }
     img {
-        width: 30%;
+        width: 10em;
         padding-left: 2em;
         padding-right: 1em;
         height: auto;
-        text-align: center;
-        white-space: nowrap;
-        box-sizing: border-box;
         animation: scale 1s infinite alternate linear;
     }
 }
@@ -50,6 +47,7 @@ h2 {
 #map {
     animation: shadowAnimation 3s infinite;
     border-radius: 5px;
+    height: 700px;
 }
 
 #search-btn {

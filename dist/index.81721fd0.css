@@ -181,10 +181,7 @@ main {
 }
 
 .logotyp img {
-  text-align: center;
-  white-space: nowrap;
-  box-sizing: border-box;
-  width: 30%;
+  width: 10em;
   height: auto;
   padding-left: 2em;
   padding-right: 1em;
@@ -198,6 +195,7 @@ h2 {
 
 #map {
   border-radius: 5px;
+  height: 700px;
   animation: 3s infinite shadowAnimation;
 }
 
@@ -253,10 +251,6 @@ h2 {
   animation: .5s ease-in-out infinite carVibrate;
 }
 
-#info h3 {
-  font-size: 2em;
-}
-
 #info p {
   font-size: 1.2em;
   line-height: 2em;
@@ -302,5 +296,97 @@ footer p {
   margin: 0 auto;
   animation: 3s infinite shadowAnimation;
   display: flex;
+}
+
+@media (width >= 907px) and (width <= 1307px) {
+  #nav-menu a {
+    font-size: 1.5em;
+  }
+
+  .logotyp h1 {
+    margin-top: 1em;
+    font-size: 1.8em;
+  }
+
+  .logotyp img {
+    width: 7em;
+  }
+}
+
+@media (width <= 907px) {
+  .menu-toggle {
+    justify-content: flex-end;
+    align-self: flex-start;
+    padding: 1em;
+    display: flex;
+    position: absolute;
+    top: 1em;
+    right: 2em;
+  }
+
+  .menu-toggle .bars {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+  }
+
+  #nav-menu {
+    flex-flow: wrap;
+    display: none;
+  }
+
+  #nav-menu a {
+    font-size: 1em;
+  }
+
+  #nav-menu.active {
+    z-index: 100;
+    box-sizing: border-box;
+    flex-direction: column;
+    padding: 2em;
+    font-weight: bold;
+    display: flex;
+    position: absolute;
+    top: -6em;
+    right: -1em;
+  }
+
+  .content h2 {
+    font-size: 1.6em;
+  }
+}
+
+.explanation {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.explanation img {
+  width: 2em;
+}
+
+.prio {
+  margin-bottom: 1em;
+}
+
+#map {
+  height: 400px;
+  margin-bottom: 3em;
+}
+
+#info h3 {
+  font-size: 1.6em;
+}
+
+#info p {
+  font-size: 1em;
+}
+
+footer p {
+  margin: 2.6em auto;
+  font-size: 1.6em;
 }
 /*# sourceMappingURL=index.81721fd0.css.map */

@@ -1,0 +1,101 @@
+@use "variables";
+@use "mixins";
+
+@include mixins.media-query('tablet') { //(min-width: 907px) and (max-width: 1307px
+    #nav-menu a {
+font-size: variables.$font-size-nav-smaller;
+    }
+    .logotyp h1 {
+        font-size: variables.$font-size-logotyp-smaller;
+        margin-top: 1em;
+    }
+
+    .logotyp img {
+        width: 7em;
+    }
+}
+
+@include mixins.media-query('extra') { //max-width: 750px
+    .menu-toggle {
+        display: flex;
+        justify-content: flex-end;
+        align-self: flex-start;
+        position: absolute;
+        right: 2em;
+        top: 1em;
+        padding: 1em;
+
+        .bars {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+          }
+      }
+
+    #nav-menu {
+        display: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        a {
+            font-size: 1em;
+        }
+    }
+
+    #nav-menu.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        font-weight: bold;
+        right: -1em;
+        top: -6em;
+        padding: 2em;
+        z-index: 100;
+        box-sizing: border-box;
+      }
+
+      .content h2 {
+        font-size: variables.$font-size-title-mobile;
+      }
+}
+
+.explanation {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        width: 2em;
+    }
+}
+
+.prio {
+    margin-bottom: 1em;
+}
+
+#map {
+    height: 400px;
+    margin-bottom: 3em;
+}
+
+#info {
+    h3 {
+    font-size: variables.$font-size-title-mobile;
+    }
+    p {
+        font-size: variables.$font-size-button;
+    }
+}
+
+footer p {
+    font-size: variables.$font-size-title-mobile;
+    margin: 2.6em auto;
+}
+
+@include mixins.media-query('mobile') { //max-width: 450px
+}
+
+@media (prefers-color-scheme: dark) {
+}
