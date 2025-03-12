@@ -8,7 +8,7 @@ async function fetchTopStories() {
         // Kontrollera om API-svaret innehåller nyheter
         const newsContainer = document.getElementById('news-container');
         if (newsContainer) {
-            newsContainer.innerHTML = "<h2>Senaste Nyheterna:</h2>";
+            newsContainer.innerHTML = "<h2>Senaste Nyheterna</h2>";
 
             // Kontrollera om nyheterna är en array och att den innehåller objekt
             if (Array.isArray(data) && data.length > 0) {

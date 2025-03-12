@@ -97,7 +97,7 @@ h2 {
     }
 
     p {
-        font-size: 1.3em;
+        font-size: variables.$font-size-text;
         line-height: 2em;
     }
 }
@@ -114,4 +114,35 @@ footer {
         margin: 2em auto;
         animation: footerAnimation 5s linear infinite alternate;
     }
+}
+
+.news-item {
+    h3 {
+        margin-top: 3em;
+        font-size: variables.$font-size-h3;
+        @extend %flex-center;
+    }
+
+    p {
+        font-size: variables.$font-size-text;
+        line-height: 2em;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    a:hover {
+        border-bottom: 2px solid variables.$link-underline-color
+    }
+}
+
+.news-item img {
+    border-radius: 10px;
+    animation: shadowAnimation 3s infinite;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    margin: 0 auto;
 }

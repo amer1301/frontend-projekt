@@ -150,7 +150,7 @@ main {
   display: flex;
 }
 
-.headline, #search-container, h2 {
+.news-item h3, .headline, #search-container, h2 {
   justify-content: center;
   align-items: center;
   display: flex;
@@ -258,7 +258,7 @@ h2 {
 }
 
 #info p {
-  font-size: 1.3em;
+  font-size: 1.2em;
   line-height: 2em;
 }
 
@@ -274,5 +274,33 @@ footer p {
   margin: 2em auto;
   font-size: 2em;
   animation: 5s linear infinite alternate footerAnimation;
+}
+
+.news-item h3 {
+  margin-top: 3em;
+  font-size: 2em;
+}
+
+.news-item p {
+  font-size: 1.2em;
+  line-height: 2em;
+}
+
+.news-item a {
+  color: #000;
+  text-decoration: none;
+}
+
+.news-item a:hover {
+  border-bottom: 2px solid #cd8532;
+}
+
+.news-item img {
+  border-radius: 10px;
+  justify-content: center;
+  align-self: center;
+  margin: 0 auto;
+  animation: 3s infinite shadowAnimation;
+  display: flex;
 }
 /*# sourceMappingURL=index.81721fd0.css.map */
