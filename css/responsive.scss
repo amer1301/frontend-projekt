@@ -2,6 +2,7 @@
 @use "mixins";
 
 @include mixins.media-query('tablet') { //(min-width: 907px) and (max-width: 1307px
+
     #nav-menu a {
 font-size: variables.$font-size-nav-smaller;
     }
@@ -15,7 +16,13 @@ font-size: variables.$font-size-nav-smaller;
     }
 }
 
-@include mixins.media-query('extra') { //max-width: 750px
+@include mixins.media-query('extra') { //max-width: 907px
+
+    #map {
+        height: 400px;
+        margin-bottom: 3em;
+    }
+
     .menu-toggle {
         display: flex;
         justify-content: flex-end;
@@ -73,11 +80,6 @@ font-size: variables.$font-size-nav-smaller;
 
 .prio {
     margin-bottom: 1em;
-}
-
-#map {
-    height: 400px;
-    margin-bottom: 3em;
 }
 
 #info {

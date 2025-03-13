@@ -604,7 +604,6 @@ async function fetchTopStories() {
         // Kontrollera om API-svaret innehåller nyheter
         const newsContainer = document.getElementById('news-container');
         if (newsContainer) {
-            newsContainer.innerHTML = "<h2>Senaste Nyheterna</h2>";
             // Kontrollera om nyheterna är en array och att den innehåller objekt
             if (Array.isArray(data) && data.length > 0) data.forEach((story)=>{
                 const storyElement = document.createElement("div");
@@ -628,28 +627,30 @@ async function fetchTopStories() {
 async function fetchCrisisInfo() {
     try {
         const responses = await Promise.all([
-            fetch('https://api.krisinformation.se/v3/testvmas'),
             fetch('https://api.krisinformation.se/v3/notifications'),
             fetch('https://api.krisinformation.se/v3/features')
         ]);
-        const [testvmasData, notificationsData, featuresData] = await Promise.all(responses.map((res)=>res.json()));
+        const [notificationsData, featuresData] = await Promise.all(responses.map((res)=>res.json()));
         const crisisContainer = document.getElementById('crisis-info-container');
         if (crisisContainer) {
-            crisisContainer.innerHTML = "<h2>Viktiga Meddelanden och Funktioner</h2>";
-            // Lägg till testvmas data
-            if (Array.isArray(testvmasData) && testvmasData.length > 0) testvmasData.forEach((item)=>{
-                const itemElement = document.createElement("div");
-                itemElement.classList.add("crisis-item");
-                itemElement.innerHTML = `
-                        <h3>${item.Headline}</h3>
-                        <p>${item.PushMessage}</p>
-                        <p><strong>Uppdaterad:</strong> ${item.Updated}</p>
-                    `;
-                crisisContainer.appendChild(itemElement);
-            });
-            else crisisContainer.innerHTML += "<p>Inga viktiga meddelanden hittades.</p>";
+            crisisContainer.innerHTML = "<h2>Viktiga meddelanden och framtida h\xe4ndelser</h2>";
+            // Funktion för att filtrera bort poster med rubriker som innehåller "Test"
+            const filterTestHeadlines = (data)=>{
+                return data.filter((item)=>!item.Headline.toLowerCase().includes("test"));
+            };
+            // Funktion för att filtrera bort gamla poster baserat på Updated datum (nu bara framtida)
+            const filterFutureData = (data)=>{
+                const currentDate = new Date();
+                return data.filter((item)=>{
+                    const updatedDate = new Date(item.Updated);
+                    return updatedDate > currentDate; // Filtrera bort historiska poster
+                });
+            };
+            // Filtrera notificationsData för "Test"-rubriker och framtida poster
+            let filteredNotifications = filterTestHeadlines(notificationsData);
+            filteredNotifications = filterFutureData(filteredNotifications);
             // Lägg till notifications data
-            if (Array.isArray(notificationsData) && notificationsData.length > 0) notificationsData.forEach((item)=>{
+            if (Array.isArray(filteredNotifications) && filteredNotifications.length > 0) filteredNotifications.forEach((item)=>{
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("notification-item");
                 itemElement.innerHTML = `
@@ -659,9 +660,10 @@ async function fetchCrisisInfo() {
                     `;
                 crisisContainer.appendChild(itemElement);
             });
-            else crisisContainer.innerHTML += "<p>Inga notifikationer hittades.</p>";
-            // Lägg till features data
-            if (Array.isArray(featuresData) && featuresData.length > 0) featuresData.forEach((item)=>{
+            else crisisContainer.innerHTML += "<p>Inga meddelanden hittades.</p>";
+            // Filtrera och lägg till features data för framtida händelser
+            const recentFeaturesData = filterFutureData(featuresData);
+            if (Array.isArray(recentFeaturesData) && recentFeaturesData.length > 0) recentFeaturesData.forEach((item)=>{
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("feature-item");
                 itemElement.innerHTML = `
@@ -671,7 +673,7 @@ async function fetchCrisisInfo() {
                     `;
                 crisisContainer.appendChild(itemElement);
             });
-            else crisisContainer.innerHTML += "<p>Inga funktioner hittades.</p>";
+            else crisisContainer.innerHTML += "<p>Inga framtida h\xe4ndelser hittades.</p>";
         }
     } catch (error) {
         console.error("Fel vid h\xe4mtning av krisinformation:", error);

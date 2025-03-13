@@ -47,7 +47,12 @@ h2 {
 #map {
     animation: shadowAnimation 3s infinite;
     border-radius: 5px;
+    width: 90%;
     height: 700px;
+}
+
+#map-container {
+    @extend %flex-center;
 }
 
 #search-btn {
@@ -67,6 +72,8 @@ h2 {
 }
 
 .explanation {
+    display: flex;
+    align-items: center;
     margin-bottom: 3em;
     white-space: nowrap;
     img {
@@ -143,4 +150,49 @@ footer {
     justify-content: center;
     align-self: center;
     margin: 0 auto;
+}
+
+#crisis-info-container {
+    p {
+        font-size: 1.2em;
+    line-height: 2em;
+    }
+}
+
+.news-intro  {
+    h3 {
+    font-size: variables.$font-size-nav;
+    @extend %flex-center;
+} 
+
+img {
+    width: 7%;
+    height: auto;
+    animation: bounceAnimation 1s infinite;
+    margin-left: 1em;
+}
+}
+
+#weather-info-container {
+    h2 {
+        @extend %flex-center;
+    }
+}
+
+.weather-data {
+    display: flex;
+    justify-content: space-between;
+    padding: 3em;
+}
+
+#hourly-weather {
+    h3 {
+font-size: variables.$font-size-title-mobile;
+    }
+}
+
+#daily-weather {
+    h3 {
+font-size: variables.$font-size-title-mobile;
+    }
 }

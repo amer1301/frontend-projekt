@@ -95,6 +95,28 @@ main {
   }
 }
 
+@keyframes bounceAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  25% {
+    transform: translateY(-10px);
+  }
+
+  50% {
+    transform: translateY(0);
+  }
+
+  75% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
 #nav-menu {
   white-space: nowrap;
   box-sizing: border-box;
@@ -150,7 +172,7 @@ main {
   display: flex;
 }
 
-.news-item h3, .headline, #search-container, h2 {
+#weather-info-container h2, .news-intro h3, .news-item h3, .headline, #search-container, #map-container, h2 {
   justify-content: center;
   align-items: center;
   display: flex;
@@ -195,6 +217,7 @@ h2 {
 
 #map {
   border-radius: 5px;
+  width: 90%;
   height: 700px;
   animation: 3s infinite shadowAnimation;
 }
@@ -231,7 +254,9 @@ h2 {
 
 .explanation {
   white-space: nowrap;
+  align-items: center;
   margin-bottom: 3em;
+  display: flex;
 }
 
 .explanation img {
@@ -298,7 +323,33 @@ footer p {
   display: flex;
 }
 
-@media (width >= 907px) and (width <= 1307px) {
+#crisis-info-container p {
+  font-size: 1.2em;
+  line-height: 2em;
+}
+
+.news-intro h3 {
+  font-size: 2em;
+}
+
+.news-intro img {
+  width: 7%;
+  height: auto;
+  margin-left: 1em;
+  animation: 1s infinite bounceAnimation;
+}
+
+.weather-data {
+  justify-content: space-between;
+  padding: 3em;
+  display: flex;
+}
+
+#hourly-weather h3, #daily-weather h3 {
+  font-size: 1.6em;
+}
+
+@media (width >= 908px) and (width <= 1307px) {
   #nav-menu a {
     font-size: 1.5em;
   }
@@ -314,6 +365,11 @@ footer p {
 }
 
 @media (width <= 907px) {
+  #map {
+    height: 400px;
+    margin-bottom: 3em;
+  }
+
   .menu-toggle {
     justify-content: flex-end;
     align-self: flex-start;
@@ -370,11 +426,6 @@ footer p {
 
 .prio {
   margin-bottom: 1em;
-}
-
-#map {
-  height: 400px;
-  margin-bottom: 3em;
 }
 
 #info h3 {

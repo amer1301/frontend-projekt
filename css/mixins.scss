@@ -35,7 +35,7 @@
     }
 
     @else if $size =='tablet' {
-        @media (min-width: 907px) and (max-width: 1307px) {
+        @media (min-width: 908px) and (max-width: 1307px) {
             @content;
         }
     }
