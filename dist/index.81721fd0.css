@@ -172,7 +172,7 @@ main {
   display: flex;
 }
 
-#weather-info-container h2, .news-intro h3, .news-item h3, .headline, #search-container, #map-container, h2 {
+.news-intro h3, .news-item h3, .headline, #search-container, #map-container, h2 {
   justify-content: center;
   align-items: center;
   display: flex;
@@ -339,8 +339,38 @@ footer p {
   animation: 1s infinite bounceAnimation;
 }
 
+#weather-info-container {
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  display: flex;
+}
+
+.image-container {
+  width: 100px;
+  height: 100px;
+  position: relative;
+}
+
+.weather {
+  width: 100%;
+  height: 100%;
+}
+
+.lightning {
+  z-index: 1;
+  width: 50%;
+  height: 50%;
+  animation: 1s linear infinite alternate scale;
+  position: absolute;
+  top: 1em;
+  left: 2em;
+}
+
 .weather-data {
   justify-content: space-between;
+  margin-left: 10em;
+  margin-right: 10em;
   padding: 3em;
   display: flex;
 }
