@@ -1,7 +1,7 @@
 @use "variables";
 @use "mixins";
 
-@include mixins.media-query('tablet') { //(min-width: 907px) and (max-width: 1307px
+@include mixins.media-query('tablet') { //(min-width: 908px) and (max-width: 1307px
 
     #nav-menu a {
 font-size: variables.$font-size-nav-smaller;
@@ -91,13 +91,114 @@ font-size: variables.$font-size-nav-smaller;
     }
 }
 
+#weather-info-container h2 {
+    font-size: variables.$font-size-logotyp-smaller;
+}
+
+.news-intro h3 {
+    font-size: variables.$font-size-title-mobile;
+}
+
 footer p {
     font-size: variables.$font-size-title-mobile;
     margin: 2.6em auto;
 }
 
-@include mixins.media-query('mobile') { //max-width: 450px
+.weather-data {
+    padding: 3em;
+    margin-left: 0;
+    margin-right: 0;
 }
 
-@media (prefers-color-scheme: dark) {
+
+@include mixins.media-query('mobile') { //max-width: 600px
+
+    .logotyp img {
+        width: 4em;
+    }
+
+    .logotyp h1 {
+        font-size: variables.$font-size-text;
+    }
+
+    .content h2 {
+        font-size: variables.$font-size-text;
+    }
+
+    #info h3 {
+        font-size: variables.$font-size-text;
+    }
+    
+    footer p {
+        font-size: variables.$font-size-text;
+    }
+
+    .news-intro h3 {
+        font-size: variables.$font-size-text;
+    }
+
+    .news-item h3 {
+        font-size: variables.$font-size-text;
+    }
+
+    .news-item p {
+        font-size: variables.$font-size-button;
+    }
+
+    #crisis-info-container p {
+        font-size: variables.$font-size-button;
+    }
+
+    #weather-info-container h2 {
+        font-size: variables.$font-size-text;
+    }
+
+    #hourly-weather h3, #daily-weather h3 {
+        font-size: variables.$font-size-text;
+    }
+
+    .weather-data {
+        padding: 1em;
+        gap: 3em;
+        justify-content: flex-start;
+    }
+
+    .weather {
+        width: 50%;
+        height: auto;
+    }
+
+    .lightning {
+        width: 25%;
+        height: 25%;
+        top: 0.3em;
+    left: 1em;
+    }
+
+    #weather-info-container {
+        gap: 1em;
+
+        h2 {
+            white-space: nowrap;
+        }
+    }
+
+    #search-container {
+        gap: 0.5em;
+    }
+
+    #location-input {
+        width: 15em;
+        height: 2.5em;
+    }
+
+    #nav-menu.active {
+        top: -9.5em;
+}
+
+.news-intro img {
+    margin-left: 0;
+    position: absolute;
+    top: 11em;
+}
 }

@@ -328,10 +328,6 @@ footer p {
   line-height: 2em;
 }
 
-.news-intro h3 {
-  font-size: 2em;
-}
-
 .news-intro img {
   width: 7%;
   height: auto;
@@ -342,7 +338,7 @@ footer p {
 #weather-info-container {
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 5em;
   display: flex;
 }
 
@@ -466,8 +462,85 @@ footer p {
   font-size: 1em;
 }
 
+#weather-info-container h2 {
+  font-size: 1.8em;
+}
+
+.news-intro h3 {
+  font-size: 1.6em;
+}
+
 footer p {
   margin: 2.6em auto;
   font-size: 1.6em;
+}
+
+.weather-data {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 3em;
+}
+
+@media (width <= 600px) {
+  .logotyp img {
+    width: 4em;
+  }
+
+  .logotyp h1, .content h2, #info h3, footer p, .news-intro h3, .news-item h3 {
+    font-size: 1.2em;
+  }
+
+  .news-item p, #crisis-info-container p {
+    font-size: 1em;
+  }
+
+  #weather-info-container h2, #hourly-weather h3, #daily-weather h3 {
+    font-size: 1.2em;
+  }
+
+  .weather-data {
+    justify-content: flex-start;
+    gap: 3em;
+    padding: 1em;
+  }
+
+  .weather {
+    width: 50%;
+    height: auto;
+  }
+
+  .lightning {
+    width: 25%;
+    height: 25%;
+    top: .3em;
+    left: 1em;
+  }
+
+  #weather-info-container {
+    gap: 1em;
+  }
+
+  #weather-info-container h2 {
+    white-space: nowrap;
+  }
+
+  #search-container {
+    gap: .5em;
+  }
+
+  #location-input {
+    width: 15em;
+    height: 2.5em;
+  }
+
+  #nav-menu.active {
+    top: -9.5em;
+  }
+
+  .news-intro img {
+    margin-left: 0;
+    position: absolute;
+    top: 11em;
+  }
 }
 /*# sourceMappingURL=index.81721fd0.css.map */

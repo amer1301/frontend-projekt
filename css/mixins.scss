@@ -23,7 +23,7 @@
 
 @mixin media-query($size) {
     @if $size =='mobile' {
-        @media (max-width: 450px) {
+        @media (max-width: 600px) {
             @content;
         }
     }

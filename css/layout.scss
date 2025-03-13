@@ -177,7 +177,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: 5em;
 }
 
 .image-container {
@@ -219,5 +219,6 @@ font-size: variables.$font-size-title-mobile;
     h3 {
 font-size: variables.$font-size-title-mobile;
     }
+
 }
 
