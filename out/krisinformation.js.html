@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: krisinformation.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: krisinformation.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Hämtar de senaste nyheterna från Krisinformation.se och visar dem på webbsidan.
+ * Nyheterna hämtas från API:et och presenteras med rubrik, länk, beskrivning och bild.
+ * 
+ * @async
+ * @function fetchTopStories
+ * @throws {Error} Om det sker ett fel vid hämtning eller hantering av API-data.
+ */
+async function fetchTopStories() {
+    try {
+        const response = await fetch('https://api.krisinformation.se/v3/topstories?language=sv');
+        const data = await response.json();
+
+        console.log(data); // Logga datan för felsökning
+
+        // Kontrollera om API-svaret innehåller nyheter
+        const newsContainer = document.getElementById('news-container');
+        if (newsContainer) {
+
+            // Kontrollera om nyheterna är en array och att den innehåller objekt
+            if (Array.isArray(data) &amp;&amp; data.length > 0) {
+                data.forEach(story => {
+                    const storyElement = document.createElement("div");
+                    storyElement.classList.add("news-item");
+
+                    // Skapa en länk till artikeln om den finns
+                    const link = story.Links &amp;&amp; story.Links.length > 0 ? story.Links[0].Url : "#";
+
+                    // Visa nyheten med titel, länk och beskrivning
+                    storyElement.innerHTML = `
+                        &lt;h3>&lt;a href="${link}" target="_blank">${story.Headline}&lt;/a>&lt;/h3>
+                        &lt;p>${story.Preamble || "Ingen beskrivning tillgänglig."}&lt;/p>
+                        &lt;img src="${story.ImageLink}" alt="${story.Headline}" style="width: 100%; max-width: 600px;">
+                    `;
+                    newsContainer.appendChild(storyElement);
+                });
+            } else {
+                newsContainer.innerHTML += "&lt;p>Inga nyheter hittades just nu.&lt;/p>";
+            }
+        }
+    } catch (error) {
+        console.error('Fel vid hämtning av nyheter:', error);
+    }
+}
+
+/**
+ * Hämtar viktig krisinformation och framtida händelser från Krisinformation.se och visar dem på webbsidan.
+ * Hämtar både notifikationer och framtida händelser, filtrerar bort testdata och gamla inlägg.
+ * 
+ * @async
+ * @function fetchCrisisInfo
+ * @throws {Error} Om det sker ett fel vid hämtning eller hantering av API-data.
+ */
+async function fetchCrisisInfo() {
+    try {
+        const responses = await Promise.all([
+            fetch('https://api.krisinformation.se/v3/notifications'),
+            fetch('https://api.krisinformation.se/v3/features')
+        ]);
+        
+        const [notificationsData, featuresData] = await Promise.all(responses.map(res => res.json()));
+
+        const crisisContainer = document.getElementById('crisis-info-container');
+        if (crisisContainer) {
+            crisisContainer.innerHTML = "&lt;h2>Viktiga meddelanden och framtida händelser&lt;/h2>";
+
+             /**
+             * Filtrerar bort alla poster med rubriker som innehåller ordet "Test".
+             * 
+             * @param {Array} data - Listan med notifikationer eller händelser.
+             * @returns {Array} - Filtrerad lista utan poster som innehåller "Test".
+             */
+            const filterTestHeadlines = (data) => {
+                return data.filter(item => !item.Headline.toLowerCase().includes("test"));
+            };
+
+             /**
+             * Filtrerar bort gamla poster baserat på uppdateringsdatum.
+             * Endast framtida händelser behålls.
+             * 
+             * @param {Array} data - Listan med notifikationer eller händelser.
+             * @returns {Array} - Filtrerad lista med endast framtida händelser.
+             */
+            const filterFutureData = (data) => {
+                const currentDate = new Date();
+                return data.filter(item => {
+                    const updatedDate = new Date(item.Updated);
+                    return updatedDate > currentDate; // Filtrera bort historiska poster
+                });
+            };
+
+            // Filtrera notificationsData för "Test"-rubriker och framtida poster
+            let filteredNotifications = filterTestHeadlines(notificationsData);
+            filteredNotifications = filterFutureData(filteredNotifications);
+
+            // Lägg till notifications data
+            if (Array.isArray(filteredNotifications) &amp;&amp; filteredNotifications.length > 0) {
+                filteredNotifications.forEach(item => {
+                    const itemElement = document.createElement("div");
+                    itemElement.classList.add("notification-item");
+                    itemElement.innerHTML = `
+                        &lt;h3>${item.Headline}&lt;/h3>
+                        &lt;p>${item.BodyText}&lt;/p>
+                        &lt;p>&lt;strong>Uppdaterad:&lt;/strong> ${item.Updated}&lt;/p>
+                    `;
+                    crisisContainer.appendChild(itemElement);
+                });
+            } else {
+                crisisContainer.innerHTML += "&lt;p>Inga meddelanden hittades.&lt;/p>";
+            }
+
+            // Filtrera och lägg till features data för framtida händelser
+            const recentFeaturesData = filterFutureData(featuresData);
+            if (Array.isArray(recentFeaturesData) &amp;&amp; recentFeaturesData.length > 0) {
+                recentFeaturesData.forEach(item => {
+                    const itemElement = document.createElement("div");
+                    itemElement.classList.add("feature-item");
+                    itemElement.innerHTML = `
+                        &lt;h3>${item.Headline}&lt;/h3>
+                        &lt;p>${item.Preamble}&lt;/p>
+                        &lt;img src="${item.ImageLink}" alt="${item.Headline}" style="width: 100%; max-width: 600px;">
+                    `;
+                    crisisContainer.appendChild(itemElement);
+                });
+            } else {
+                crisisContainer.innerHTML += "&lt;p>Inga framtida händelser hittades.&lt;/p>";
+            }
+        }
+    } catch (error) {
+        console.error('Fel vid hämtning av krisinformation:', error);
+    }
+}
+
+
+/**
+ * Kör både `fetchTopStories` och `fetchCrisisInfo` när sidan har laddats.
+ * Funktionerna hämtar och visar de senaste nyheterna och viktig krisinformation på webbsidan.
+ * 
+ * @function
+ */
+window.onload = function() {
+    fetchTopStories();
+    fetchCrisisInfo();
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addTrafficMarkers">addTrafficMarkers</a></li><li><a href="global.html#clearWeatherData">clearWeatherData</a></li><li><a href="global.html#displayDailyWeather">displayDailyWeather</a></li><li><a href="global.html#displayHourlyWeather">displayHourlyWeather</a></li><li><a href="global.html#displayTrafficInfo">displayTrafficInfo</a></li><li><a href="global.html#fetchCrisisInfo">fetchCrisisInfo</a></li><li><a href="global.html#fetchTopStories">fetchTopStories</a></li><li><a href="global.html#getCoordinates">getCoordinates</a></li><li><a href="global.html#getDistance">getDistance</a></li><li><a href="global.html#getPriorityLabel">getPriorityLabel</a></li><li><a href="global.html#getTrafficInfo">getTrafficInfo</a></li><li><a href="global.html#getWeather">getWeather</a></li><li><a href="global.html#initializeMap">initializeMap</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#priorityIcons">priorityIcons</a></li><li><a href="global.html#updateMap">updateMap</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Mar 13 2025 14:58:43 GMT+0100 (centraleuropeisk normaltid)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

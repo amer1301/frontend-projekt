@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: trafikolyckor.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: trafikolyckor.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Skapar en global karta och hanterar visningen av trafikmeddelanden och markörer baserat på användarens plats.
+ * Initialiserar kartan, hanterar trafikinformation, och uppdaterar kartan med trafikstörningar.
+ * 
+ * @global
+ * @type {L.Map}
+ */
+let map; 
+
+import priority1Icon from './images/priority1.png';
+import priority2Icon from './images/priority2.png';
+import priority3Icon from './images/priority3.png';
+import priority4Icon from './images/priority4.png';
+import priority5Icon from './images/priority5.png';
+import markerIcon from './images/marker.png';
+
+/**
+ * Ett objekt som innehåller ikoner för trafikstörningar baserat på prioritet.
+ * 
+ * @type {Object.&lt;number, L.Icon>}
+ */
+const priorityIcons = {
+    1: L.icon({
+        iconUrl: priority1Icon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    }),
+    2: L.icon({
+        iconUrl: priority2Icon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    }),
+    3: L.icon({
+        iconUrl: priority3Icon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    }),
+    4: L.icon({
+        iconUrl: priority4Icon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    }),
+    5: L.icon({
+        iconUrl: priority5Icon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    })
+};
+
+/**
+ * Funktion som initierar kartan och sätter en förvald plats (Stockholm).
+ * Lägger till OpenStreetMap-lager och hämtar trafikinfo för den förvalda platsen.
+ * 
+ * @function
+ */
+function initializeMap() {
+    // Förvald plats (Stockholm) när sidan laddas
+    const defaultLat = 59.3293;  // Latitude för Stockholm
+    const defaultLon = 18.0686;  // Longitude för Stockholm
+
+    // Skapa kartan och sätt en initial vy
+    map = L.map('map').setView([defaultLat, defaultLon], 13);  // Initiala koordinater och zoom
+
+    // Lägg till OpenStreetMap lager
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&amp;copy; &lt;a href="https://www.openstreetmap.org/copyright">OpenStreetMap&lt;/a> contributors'
+    }).addTo(map);
+
+    // Hämta trafikinfo för förvald plats
+    getTrafficInfo(defaultLat, defaultLon, 'Stockholm');
+}
+
+/**
+ * Hämtar koordinater för en plats från OpenStreetMap's Nominatim API.
+ * Uppdaterar kartan med de nya koordinaterna och hämtar trafikinfo för den nya platsen.
+ * 
+ * @async
+ * @function
+ * @param {string} location - Namnet på platsen att söka koordinater för.
+ * @returns {Promise&lt;void>}
+ */
+async function getCoordinates(location) {
+    try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&amp;q=${encodeURIComponent(location)}&amp;addressdetails=1`);
+        const data = await response.json();
+        
+        if (data.length > 0) {
+            const lat = data[0].lat;
+            const lon = data[0].lon;
+            updateMap(lat, lon);  // Uppdatera kartan med de nya koordinaterna
+            getTrafficInfo(lat, lon, location);  // Hämta trafikinfo för den nya platsen
+        } else {
+            alert('Platsen kunde inte hittas!');
+        }
+    } catch (error) {
+        console.error('Fel vid hämtning av koordinater:', error);
+        alert('Något gick fel när platsen skulle sökas.');
+    }
+}
+
+/**
+ * Uppdaterar kartan med en ny plats och lägger till en marker på den nya platsen.
+ * 
+ * @function
+ * @param {number} lat - Latitude för den nya platsen.
+ * @param {number} lon - Longitude för den nya platsen.
+ */
+function updateMap(lat, lon) {
+    if (!map) {
+        // Om kartan inte har initialiserats än, skapa den
+        map = L.map('map').setView([lat, lon], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&amp;copy; &lt;a href="https://www.openstreetmap.org/copyright">OpenStreetMap&lt;/a> contributors'
+        }).addTo(map);
+    } else {
+        // Om kartan redan finns, bara uppdatera center och zoom
+        map.setView([lat, lon], 13);
+    }
+
+    // Lägg till en standard markör med 'marker.png' på den nya platsen
+    const userMarker = L.icon({
+        iconUrl: markerIcon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
+
+    L.marker([lat, lon], { icon: userMarker }).addTo(map)
+        .bindPopup('Platsen: ' + lat + ', ' + lon)
+        .openPopup();
+}
+
+// Eventlyssnare för att hämta koordinater när användaren söker
+document.getElementById('search-btn').addEventListener('click', function() {
+    const location = document.getElementById('location-input').value;
+    if (location) {
+        getCoordinates(location);  // Hämtar koordinater för den angivna platsen
+    } else {
+        alert('Vänligen ange en plats!');
+    }
+});
+
+/**
+ * Hämta trafikmeddelanden baserat på användarens koordinater och plats.
+ * Uppdaterar sidan med trafikinformation och lägger till markörer för trafikstörningar på kartan.
+ * 
+ * @async
+ * @function
+ * @param {number} userLat - Latitude för användarens plats.
+ * @param {number} userLon - Longitude för användarens plats.
+ * @param {string} location - Namnet på platsen för vilken trafikinfo hämtas.
+ */
+async function getTrafficInfo(userLat, userLon, location) {
+    const infoDiv = document.getElementById("info");
+    infoDiv.innerHTML = "";
+
+    const url = `https://api.sr.se/api/v2/traffic/messages?format=json&amp;search=${encodeURIComponent(location)}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    displayTrafficInfo(data); // Visa trafikinformationen i info-diven
+    addTrafficMarkers(data, userLat, userLon); // Lägg till markörer för trafikstörningar på kartan
+}
+
+/**
+ * Visar trafikmeddelanden i ett HTML-element på sidan.
+ * 
+ * @function
+ * @param {Object} data - Trafikdata som innehåller meddelanden.
+ */
+function displayTrafficInfo(data) {
+    const infoDiv = document.getElementById("info");
+    infoDiv.innerHTML = "";
+
+    if (data.messages &amp;&amp; data.messages.length > 0) {
+        data.messages.forEach(message => {
+            const messageElement = document.createElement("article");
+
+            const title = document.createElement("h3");
+            title.textContent = message.title || "Trafikmeddelande";
+            messageElement.appendChild(title);
+
+            const description = document.createElement("p");
+            description.textContent = message.description || "Ingen ytterligare information.";
+            messageElement.appendChild(description);
+
+            infoDiv.appendChild(messageElement);
+        });
+    } else {
+        const noInfo = document.createElement("p");
+        noInfo.textContent = "Ingen trafikinfo tillgänglig för den valda platsen.";
+        infoDiv.appendChild(noInfo);
+    }
+}
+
+/**
+ * Lägg till markörer för trafikstörningar på kartan beroende på avståndet från användaren.
+ * 
+ * @function
+ * @param {Object} data - Trafikdata som innehåller meddelanden och platsinformation.
+ * @param {number} userLat - Latitude för användarens plats.
+ * @param {number} userLon - Longitude för användarens plats.
+ */
+function addTrafficMarkers(data, userLat, userLon) {
+    if (data.messages &amp;&amp; data.messages.length > 0) {
+        data.messages.forEach(message => {
+            const lat = message.latitude;
+            const lon = message.longitude;
+
+            const distance = getDistance(userLat, userLon, lat, lon);
+            if (distance &lt; 50) { // 50 km avstånd, kan justeras beroende på behov
+                // Välj rätt prioriteringsikon för markören
+                const icon = priorityIcons[message.priority] || priorityIcons[3];  // Standard ikon om prioritet inte finns
+                L.marker([lat, lon], { icon: icon }).addTo(map)
+                    .bindPopup(`
+                        &lt;strong>${message.title}&lt;/strong>&lt;br>
+                        ${message.description || "Ingen ytterligare information."}&lt;br>
+                        &lt;em>Allvarlighetsgrad: ${getPriorityLabel(message.priority)}&lt;/em>
+                    `)
+                    .openPopup();
+            }
+        });
+    }
+}
+
+
+/**
+ * Beräknar avståndet mellan två geografiska punkter (i kilometer).
+ * 
+ * @function
+ * @param {number} lat1 - Latitude för den första punkten.
+ * @param {number} lon1 - Longitude för den första punkten.
+ * @param {number} lat2 - Latitude för den andra punkten.
+ * @param {number} lon2 - Longitude för den andra punkten.
+ * @returns {number} - Avståndet mellan punkterna i kilometer.
+ */
+function getDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Jordens radie i kilometer
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Avståndet i kilometer
+}
+
+/**
+ * Ger en läsbar etikett baserat på prioriteten för trafikstörningen.
+ * 
+ * @function
+ * @param {number} priority - Prioritetsvärde för trafikstörningen.
+ * @returns {string} - Läsbar etikett för prioriteten.
+ */
+function getPriorityLabel(priority) {
+    switch (priority) {
+        case 1: return "Mycket allvarlig händelse";
+        case 2: return "Stor händelse";
+        case 3: return "Störning";
+        case 4: return "Information";
+        case 5: return "Mindre störning";
+        default: return "Okänd prioritet";
+    }
+}
+
+// Initialisera kartan vid sidladdning
+initializeMap();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addTrafficMarkers">addTrafficMarkers</a></li><li><a href="global.html#clearWeatherData">clearWeatherData</a></li><li><a href="global.html#displayDailyWeather">displayDailyWeather</a></li><li><a href="global.html#displayHourlyWeather">displayHourlyWeather</a></li><li><a href="global.html#displayTrafficInfo">displayTrafficInfo</a></li><li><a href="global.html#fetchCrisisInfo">fetchCrisisInfo</a></li><li><a href="global.html#fetchTopStories">fetchTopStories</a></li><li><a href="global.html#getCoordinates">getCoordinates</a></li><li><a href="global.html#getDistance">getDistance</a></li><li><a href="global.html#getPriorityLabel">getPriorityLabel</a></li><li><a href="global.html#getTrafficInfo">getTrafficInfo</a></li><li><a href="global.html#getWeather">getWeather</a></li><li><a href="global.html#initializeMap">initializeMap</a></li><li><a href="global.html#map">map</a></li><li><a href="global.html#priorityIcons">priorityIcons</a></li><li><a href="global.html#updateMap">updateMap</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Mar 13 2025 14:58:43 GMT+0100 (centraleuropeisk normaltid)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
