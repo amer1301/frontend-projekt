@@ -12,7 +12,11 @@
 <body>
     <header class="header">
         <section class="logotyp">
-            <img src="images/beware.png" alt="logotyp">
+            <picture>
+                <source srcset="images/beware.png" type="image/avif">
+                <source srcset="images/beware.png" type="image/webp">
+            <img src="images/beware.png" alt="logotyp" loading="lazy">
+        </picture>
             <h1>BeforeUGo</h1>
           </section>
         <nav class="header-nav">
@@ -45,8 +49,16 @@
     <section id="weather-info-container">
         <h2>Här visas väder för valt område</h2>
         <div class="image-container">
+            <picture>
+                <source srcset="images/weather.png" type="image/avif">
+                <source srcset="images/weather.png" type="image/webp">
             <img src="images/weather.png" alt="weather" class="weather">
+            </picture>
+            <picture>
+                <source srcset="images/ligtning.png" type="image/avif">
+                <source srcset="images/ligtning.png" type="image/webp">
             <img src="images/ligtning.png" alt="lightning" class="lightning">
+            </picture>
         </div>
         </section>
     

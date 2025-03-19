@@ -12,7 +12,11 @@
 <body>
     <header class="header">
         <section class="logotyp">
-            <img src="images/beware.png" alt="logotyp">
+          <picture>
+            <source srcset="images/beware.png" type="image/avif">
+            <source srcset="images/beware.png" type="image/webp">
+        <img src="images/beware.png" alt="logotyp" loading="lazy">
+    </picture>
             <h1>BeforeUGo</h1>
           </section>
         <nav class="header-nav">
