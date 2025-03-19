@@ -89,7 +89,6 @@ h2 {
 .headline {
     @extend %flex-center;
     img {
-        width: 30%;
         height: auto;
         margin-left: 3em;
         animation: carVibrate 0.5s ease-in-out infinite;

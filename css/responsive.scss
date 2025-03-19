@@ -40,6 +40,10 @@ font-size: variables.$font-size-nav-smaller;
           }
       }
 
+      .headline img {
+        width: 50%;
+      }
+
     #nav-menu {
         display: none;
         flex-direction: row;
