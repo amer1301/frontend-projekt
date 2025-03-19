@@ -8,7 +8,6 @@
 document.addEventListener('DOMContentLoaded', () => { 
     const menuToggle = document.getElementById('menu-toggle'); 
     const navMenu = document.getElementById('nav-menu'); 
-    const bars = menuToggle.querySelector('.bars'); 
     const close = menuToggle.querySelector('.close'); 
 
     if (menuToggle && navMenu) { 
