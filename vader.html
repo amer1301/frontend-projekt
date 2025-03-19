@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Väderrapport</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="css/main.scss">
     <link href="https://fonts.googleapis.com/css2?family=Inria+Sans&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="menu.js" defer></script>
     <script src="vader.js" defer></script>
-    <title>Väderrapport</title>
 </head>
 <body>
     <header class="header">
@@ -39,10 +39,11 @@
 </header>
 
     <main>
-    <section id="search-container">
-        <input type="text" id="location-input" placeholder="Ange vilket område du önskar se vädret för:">
-        <button id="search-btn">Sök</button>
-    </section>
+        <section id="search-container">
+            <label for="location-input" class="sr-only">Ange vilket område du önskar se vädret för:</label>
+            <input type="text" id="location-input" placeholder="Ange vilket område du önskar se vädret för:">
+            <button id="search-btn">Sök</button>
+        </section>        
     
     <section id="weather-info-container">
         <h2>Här visas väder för valt område</h2>

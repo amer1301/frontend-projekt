@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trafikinformation</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="css/main.scss">
     <link href="https://fonts.googleapis.com/css2?family=Inria+Sans&display=swap" rel="stylesheet">
@@ -41,6 +42,7 @@
         <section class="content">
         <h2>Sök efter trafikinformation</h2>
         <section id="search-container">
+            <label for="location-input" class="sr-only">Ange vilket område du önskar söka information om:</label>
             <input type="text" id="location-input" placeholder="Ange vilket område du önskar söka information om:">
             <button id="search-btn">Sök</button>
         </section>
