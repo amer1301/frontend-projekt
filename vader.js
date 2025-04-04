@@ -27,7 +27,7 @@ async function getCoordinates(location) {
     } catch (error) { 
         alert('Något gick fel när platsen skulle sökas.'); 
     } 
-} 
+}
 
 /**
  * Hämtar väderinformation (både timvis och daglig) baserat på latitud och longitud.
@@ -71,6 +71,25 @@ async function getWeather(latitude, longitude) {
     } catch (error) {
         console.error('Fel vid hämtning av väderdata:', error);
     }
+}
+
+/**
+ * Formaterar en given tidsstämpel till ett läsbart format: "YYYY-MM-DD klockan HH:MM"
+ * 
+ * @param {string} time - Tidsstämpel i ISO-format (ex: "2025-04-01T11:00:00Z").
+ * @returns {string} - Den formaterade tiden som en sträng i formatet "YYYY-MM-DD klockan HH:MM".
+ */
+function formatTimeToReadableFormat(time) {
+    const date = new Date(time);
+    
+    // Formatera datumet och tiden till önskat format: YYYY-MM-DD klockan HH:MM
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Månad (0-indexerad, så +1)
+    const day = String(date.getDate()).padStart(2, '0'); // Dag
+    const hours = String(date.getHours()).padStart(2, '0'); // Timme
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // Minuter
+
+    return `${year}-${month}-${day} klockan ${hours}:${minutes}`;
 }
 
 /**
@@ -137,7 +156,7 @@ function displayHourlyWeather(data) {
             const hourlyWeather = document.createElement('div');
             hourlyWeather.classList.add('weather-hour');
             hourlyWeather.innerHTML = `
-                <h4>Tid: ${time}</h4>
+                <h4>Dag: ${formatTimeToReadableFormat(time)}</h4>
                 <p>Temperatur: ${temperature}°C</p>
                 <p>Regn: ${precip} mm</p>
                 <p>Luftfuktighet: ${humidity}%</p>

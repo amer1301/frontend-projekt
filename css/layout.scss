@@ -203,23 +203,27 @@ img {
 
 .weather-data {
     display: flex;
-    justify-content: space-between;
-    padding: 3em;
-    margin-left: 10em;
-    margin-right: 10em;
+    justify-content: center;
+    gap: 20em;
 }
 
 #hourly-weather {
     h3 {
+        cursor: pointer;
 font-size: variables.$font-size-title-mobile;
     }
 }
 
 #daily-weather {
     h3 {
+        cursor: pointer;
 font-size: variables.$font-size-title-mobile;
     }
 
+}
+
+.weather-data h3:hover {
+    background-color: #ddd;
 }
 
 .sr-only {

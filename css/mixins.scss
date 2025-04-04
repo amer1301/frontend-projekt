@@ -22,7 +22,7 @@
 }
 
 @mixin media-query($size) {
-    @if $size =='mobile' {
+    @if $size =='smaller' {
         @media (max-width: 600px) {
             @content;
         }
@@ -34,8 +34,8 @@
         }
     }
 
-    @else if $size =='tablet' {
-        @media (min-width: 908px) and (max-width: 1307px) {
+    @else if $size == 'mobile' {
+        @media (max-width: 375px) {
             @content;
         }
     }

@@ -2,7 +2,7 @@
 @use "mixins";
 
 @include mixins.media-query('tablet') { //(min-width: 908px) and (max-width: 1307px
-
+    
     #nav-menu a {
 font-size: variables.$font-size-nav-smaller;
     }
@@ -95,8 +95,11 @@ font-size: variables.$font-size-nav-smaller;
     }
 }
 
-#weather-info-container h2 {
+#weather-info-container {
+gap: 2em;
+h2 {
     font-size: variables.$font-size-logotyp-smaller;
+}
 }
 
 .news-intro h3 {
@@ -109,13 +112,13 @@ footer p {
 }
 
 .weather-data {
-    padding: 3em;
-    margin-left: 0;
-    margin-right: 0;
+    gap: 15em;
+    padding-left: 2em;
+    padding-right: 2em;
 }
 
 
-@include mixins.media-query('mobile') { //max-width: 600px
+@include mixins.media-query('smaller') { //max-width: 600px
 
     .logotyp img {
         width: 4em;
@@ -162,9 +165,7 @@ footer p {
     }
 
     .weather-data {
-        padding: 1em;
         gap: 3em;
-        justify-content: flex-start;
     }
 
     .weather {
@@ -205,4 +206,33 @@ footer p {
     position: absolute;
     top: 11em;
 }
+}
+
+@include mixins.media-query('mobile') { // max-width 375px
+    #weather-info-container {
+        gap: 0.3em;
+    
+    h2 {
+        font-size: 1.1em;
+    }
+}
+
+    .image-container {
+        width: 6em;
+        height: 6em;
+    }
+
+    .weather-data {
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        gap: 1.5em;
+    }
+
+    #weather-info-container h2, #hourly-weather h3, #daily-weather h3 {
+        font-size: 1em;
+    }
+
+    h4 {
+        font-size: 1em;
+    }
 }
