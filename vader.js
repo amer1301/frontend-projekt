@@ -169,7 +169,16 @@ function displayHourlyWeather(data) {
     hourlyContainer.appendChild(compactHourlyWeather);
 }
 
-// Ny funktion för att expandera alla timme-för-timme-informationer
+/**
+ * Växlar visningen av alla element med klassen 'hourly-details'.
+ * Om ett element är dolt (display: 'none'), görs det synligt (display: 'block'),
+ * och om det är synligt, döljs det.
+ * 
+ * Funktionen itererar genom alla element med klassen 'hourly-details' och ändrar 
+ * deras display-egenskap.
+ * 
+ * @function
+ */
 function toggleAllHourlyDetails() {
     const details = document.querySelectorAll('.hourly-details');
     details.forEach(detail => {
@@ -226,6 +235,16 @@ function displayDailyWeather(data) {
     }
 }
 
+/**
+ * Växlar visningen av alla element med klassen 'daily-details'.
+ * Om ett element är dolt (display: 'none'), görs det synligt (display: 'block'),
+ * och om det är synligt, döljs det.
+ * 
+ * Funktionen itererar genom alla element med klassen 'daily-details' och ändrar 
+ * deras display-egenskap.
+ * 
+ * @function
+ */
 function toggleDailyDetails() {
     const details = document.querySelectorAll('.daily-details');
     details.forEach(detail => {
