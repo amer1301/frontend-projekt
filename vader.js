@@ -89,7 +89,7 @@ function formatTimeToReadableFormat(time) {
     const hours = String(date.getHours()).padStart(2, '0'); // Timme
     const minutes = String(date.getMinutes()).padStart(2, '0'); // Minuter
 
-    return `${year}-${month}-${day} klockan ${hours}:${minutes}`;
+    return `<strong>${year}-${month}-${day} klockan ${hours}:${minutes}</strong>`;
 }
 
 /**
@@ -155,7 +155,7 @@ function displayHourlyWeather(data) {
             ${filteredTimes.map((time, index) => {
                 return `
                     <div class="hour-detail">
-                        <h5>Timme: ${formatTimeToReadableFormat(time)}</h5>
+                        <h5>${formatTimeToReadableFormat(time)}</h5>
                         <p>Temperatur: ${filteredTemperatures[index]}°C</p>
                         <p>Regn: ${filteredPrecipitations[index]} mm</p>
                         <p>Luftfuktighet: ${filteredHumidities[index]}%</p>

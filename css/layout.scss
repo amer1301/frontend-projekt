@@ -225,3 +225,11 @@ font-size: variables.$font-size-title-mobile;
     clip: rect(0, 0, 0, 0);
     overflow: hidden;
 }
+
+.hour-detail {
+    font-size: 1em;
+
+    h5 {
+        font-size: 1em; 
+    }
+}

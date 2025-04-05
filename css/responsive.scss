@@ -210,7 +210,7 @@ footer p {
 
 @include mixins.media-query('mobile') { // max-width 375px
     #weather-info-container h2 {
-        font-size: 1.1em;
+        font-size: 1.2em;
     }
 
     .image-container {
@@ -245,4 +245,6 @@ footer p {
         cursor: pointer;
         text-align: center;
     }
+
+
 }
