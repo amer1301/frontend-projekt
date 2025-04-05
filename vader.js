@@ -127,47 +127,54 @@ function displayHourlyWeather(data) {
     const windSpeeds = data.hourly.wind_speed_10m || [];
     const snowfalls = data.hourly.snowfall || [];
 
-    // Hämta nuvarande tid
+    // Skapa en kortfattad väderformat för den första timmen och en expandera-knapp
     const currentTime = new Date();
     const currentHour = currentTime.getHours();
-    
-    // Filtrera bort timmar som redan passerat
+
+    // Filtrera timmar framåt
     const filteredTimes = times.filter((time) => {
         const timeHour = new Date(time).getHours();
         return timeHour >= currentHour;
     });
 
-    // Hämta de väderdata som matchar de filtrerade tiderna
     const filteredTemperatures = temperatures.filter((_, index) => times[index] >= currentTime.toISOString());
     const filteredPrecipitations = precipitations.filter((_, index) => times[index] >= currentTime.toISOString());
     const filteredHumidities = humidities.filter((_, index) => times[index] >= currentTime.toISOString());
     const filteredWindSpeeds = windSpeeds.filter((_, index) => times[index] >= currentTime.toISOString());
     const filteredSnowfalls = snowfalls.filter((_, index) => times[index] >= currentTime.toISOString());
 
-    if (filteredTimes.length > 0 && filteredTemperatures.length > 0) {
-        for (let i = 0; i < filteredTimes.length; i++) {
-            const time = filteredTimes[i];
-            const temperature = filteredTemperatures[i];
-            const precip = filteredPrecipitations[i];
-            const humidity = filteredHumidities[i];
-            const windSpeed = filteredWindSpeeds[i];
-            const snowfall = filteredSnowfalls[i];
+    // Skapa en kortfattad vädervy och en knapp för att expandera till hela timmen
+    const compactHourlyWeather = document.createElement('div');
+    compactHourlyWeather.classList.add('weather-hour');
+    compactHourlyWeather.innerHTML = `
+        <p>${formatTimeToReadableFormat(filteredTimes[0])}</p>
+        <p>Temperatur: ${filteredTemperatures[0]}°C</p>
+        <p>Vind: ${filteredWindSpeeds[0]} m/s</p>
+        <div class="expand-btn" onclick="toggleAllHourlyDetails()">Expandera för alla timmar idag</div>
+        <div class="hourly-details" style="display:none;">
+            ${filteredTimes.map((time, index) => {
+                return `
+                    <div class="hour-detail">
+                        <h5>Timme: ${formatTimeToReadableFormat(time)}</h5>
+                        <p>Temperatur: ${filteredTemperatures[index]}°C</p>
+                        <p>Regn: ${filteredPrecipitations[index]} mm</p>
+                        <p>Luftfuktighet: ${filteredHumidities[index]}%</p>
+                        <p>Vind: ${filteredWindSpeeds[index]} m/s</p>
+                        <p>Snöfall: ${filteredSnowfalls[index]} cm</p>
+                    </div>
+                `;
+            }).join('')}
+        </div>
+    `;
+    hourlyContainer.appendChild(compactHourlyWeather);
+}
 
-            const hourlyWeather = document.createElement('div');
-            hourlyWeather.classList.add('weather-hour');
-            hourlyWeather.innerHTML = `
-                <h4>Dag: ${formatTimeToReadableFormat(time)}</h4>
-                <p>Temperatur: ${temperature}°C</p>
-                <p>Regn: ${precip} mm</p>
-                <p>Luftfuktighet: ${humidity}%</p>
-                <p>Vind: ${windSpeed} m/s</p>
-                <p>Snöfall: ${snowfall} cm</p>
-            `;
-            hourlyContainer.appendChild(hourlyWeather);
-        }
-    } else {
-        hourlyContainer.innerHTML = '<p>Ingen väderdata tillgänglig för framtida timmar.</p>';
-    }
+// Ny funktion för att expandera alla timme-för-timme-informationer
+function toggleAllHourlyDetails() {
+    const details = document.querySelectorAll('.hourly-details');
+    details.forEach(detail => {
+        detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
+    });
 }
 
 /**
@@ -200,19 +207,29 @@ function displayDailyWeather(data) {
             const dailyWeather = document.createElement('div');
             dailyWeather.classList.add('weather-day');
             dailyWeather.innerHTML = `
-                <h4>Dag: ${day}</h4>
+                <h4>${day}</h4>
                 <p>Max temperatur: ${maxTemp}°C</p>
                 <p>Min temperatur: ${minTemp}°C</p>
-                <p>Regn: ${precip} mm</p>
-                <p>Snöfall: ${snowfall} cm</p>
-                <p>Max luftfuktighet: ${maxHumidity}%</p>
-                <p>Min luftfuktighet: ${minHumidity}%</p>
-                <p>Max vind: ${maxWindSpeed} km/h</p>
+                <div class="expand-btn" onclick="toggleDailyDetails()">Expandera detaljer</div>
+                <div class="daily-details" style="display:none;">
+                    <p>Regn: ${precip} mm</p>
+                    <p>Snöfall: ${snowfall} cm</p>
+                    <p>Max luftfuktighet: ${maxHumidity}%</p>
+                    <p>Min luftfuktighet: ${minHumidity}%</p>
+                    <p>Max vind: ${maxWindSpeed} km/h</p>
+                </div>
             `;
             dailyContainer.appendChild(dailyWeather);
         }
     } else {
         dailyContainer.innerHTML = '<p>Ingen 7-dagars väderdata tillgänglig.</p>';
     }
+}
+
+function toggleDailyDetails() {
+    const details = document.querySelectorAll('.daily-details');
+    details.forEach(detail => {
+        detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
+    });
 }
 

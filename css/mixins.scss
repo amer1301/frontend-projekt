@@ -22,13 +22,13 @@
 }
 
 @mixin media-query($size) {
-    @if $size =='smaller' {
+    @if $size == 'smaller' {
         @media (max-width: 600px) {
             @content;
         }
     }
 
-    @else if $size =='extra' {
+    @else if $size == 'extra' {
         @media (max-width: 907px) {
             @content;
         }
@@ -36,6 +36,12 @@
 
     @else if $size == 'mobile' {
         @media (max-width: 375px) {
+            @content;
+        }
+    }
+
+    @else if $size == 'tablet' {
+        @media (min-width: 908px) and (max-width: 1307px) {
             @content;
         }
     }

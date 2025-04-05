@@ -209,13 +209,9 @@ footer p {
 }
 
 @include mixins.media-query('mobile') { // max-width 375px
-    #weather-info-container {
-        gap: 0.3em;
-    
-    h2 {
+    #weather-info-container h2 {
         font-size: 1.1em;
     }
-}
 
     .image-container {
         width: 6em;
@@ -223,9 +219,12 @@ footer p {
     }
 
     .weather-data {
-        padding-left: 0.5em;
-        padding-right: 0.5em;
-        gap: 1.5em;
+        display: block;
+        flex-direction: column;
+    }
+
+    #hourly-weather, #daily-weather {
+        margin-bottom: 1em;
     }
 
     #weather-info-container h2, #hourly-weather h3, #daily-weather h3 {
@@ -234,5 +233,16 @@ footer p {
 
     h4 {
         font-size: 1em;
+    }
+
+    .expand-btn {
+        display: inline-block;
+        margin-top: 1em;
+        background-color: #007bff;
+        color: #fff;
+        padding: 0.5em;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
     }
 }
