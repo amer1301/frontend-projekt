@@ -150,7 +150,7 @@ function displayHourlyWeather(data) {
         <p>${formatTimeToReadableFormat(filteredTimes[0])}</p>
         <p>Temperatur: ${filteredTemperatures[0]}°C</p>
         <p>Vind: ${filteredWindSpeeds[0]} m/s</p>
-        <div class="expand-btn" onclick="toggleAllHourlyDetails()">Expandera för alla timmar idag</div>
+        <div class="expand-btn" onclick="toggleAllHourlyDetails()">Tryck här för att se fler timmar</div>
         <div class="hourly-details" style="display:none;">
             ${filteredTimes.map((time, index) => {
                 return `
@@ -219,7 +219,7 @@ function displayDailyWeather(data) {
                 <h4>${day}</h4>
                 <p>Max temperatur: ${maxTemp}°C</p>
                 <p>Min temperatur: ${minTemp}°C</p>
-                <div class="expand-btn" onclick="toggleDailyDetails()">Expandera detaljer</div>
+                <div class="expand-btn" onclick="toggleDailyDetails()">Tryck här för att se fler detaljer</div>
                 <div class="daily-details" style="display:none;">
                     <p>Regn: ${precip} mm</p>
                     <p>Snöfall: ${snowfall} cm</p>
